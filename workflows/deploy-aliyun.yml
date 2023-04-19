@@ -1,0 +1,50 @@
+name: deploy page
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: branch checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      # 安装Node
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+
+      # 使用缓存依赖
+      - name: check yarn cache  
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # 安装依赖
+      - name: Install Dependencies
+        run: yarn 
+
+      # 构建
+      - name: Build
+        run: yarn run build
+        
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v4.1.8 # SSH 的方式远程登录到阿里云服务器，将打包好的文件夹复制到阿里云指定的目录上
+        env:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  // github上面自定义的密钥
+            ARGS: '-rltgoDzvO --delete'
+            SOURCE: dist/ # 这是要复制到阿里云静态服务器的文件夹名称
+            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}  # 你的阿里云公网地址
+            REMOTE_USER: root # 阿里云登录后默认为 root 用户，并且所在文件夹为 root
+            TARGET: /www/my-site # 打包后的 dist 文件夹将放在 容器外的目录同docker run时 -v映射的相同
+
+  
