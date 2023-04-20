@@ -2,10 +2,9 @@ const http = require("http");
 
 http
   .createServer((req, res) => {
-    console.log("receive request");
-    console.log(req.url);
     if (req.method === "get" && req.url === "/") {
-      res.end(req);
+      console.log(req.url);
+      res.end(req.url);
       //...
     }
     if (req.method === "post" && req.url === "/") {
