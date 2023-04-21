@@ -1,3 +1,4 @@
+const { execSync } = require("child_process");
 const http = require("http");
 const url = require("url");
 
@@ -19,29 +20,33 @@ const resolvePost = (req) => {
 http
   .createServer(async (req, res) => {
     res.writeHead(200, { "Content-Type": "application/json" });
+    const { pathname, query } = url.parse(req.url, true);
     if (req.method === Type_GET) {
-      const { pathname, query } = url.parse(req.url, true);
       const response = {
-        data: "Hello World!",
+        result: "Hello World!",
         url: req.url,
         method: req.method,
         pathname,
         query,
       };
-      console.log(new Date().toLocaleString(),response)
+      console.log(new Date().toLocaleString(), response);
       res.end(JSON.stringify(response));
     }
     if (req.method === TYPE_POST) {
-      const data = await resolvePost(req);
-      const response= {
-        data,
+      const result = await resolvePost(req);
+      const response = {
+        result,
         url: req.url,
         method: req.method,
-      }
-      console.log(new Date().toLocaleString(),response)
-      res.end(
-        JSON.stringify(response)
+        port: query?.port || 8888,
+        containerName:query?.containerName ,
+      };
+      const path =`${result.repository.nameSpace}/${result.repository.name}:${result.push_data.tag}`
+      execSync(
+        `./update.sh ${path} ${containerName} ${result.push_data.tag} ${response.port}`
       );
+      console.log(new Date().toLocaleString(), response);
+      res.end(JSON.stringify(response));
     }
   })
   .listen(3000, () => {
