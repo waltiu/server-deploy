@@ -64,7 +64,7 @@ http
         containerName: query.containerName,
       };
       console.log(new Date().toLocaleString(), response);
-      const path = `${result.repository.nameSpace}/${result.repository.name}:${result.push_data.tag}`;
+      const path = `${result.repository.namespace}/${result.repository.name}:${result.push_data.tag}`;
       shellUrl = `sh update.sh ${path}  ${response.port}  ${query.containerName}`;
       console.log(shellUrl, "shell");
       execSync(shellUrl);
