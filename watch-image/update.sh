@@ -1,6 +1,6 @@
 path=$1
-containerName=$2
-port=$3
+port=$2
+containerName=$3
 username=$4
 password=$5
 
@@ -30,6 +30,7 @@ echo -e "---------docker Create and Start--------"
 docker run --rm -d -p $port:80 --name $containerName $imagepath # 重启容器
 echo -e "---------deploy Success--------"
 
+# 本地调试可以打开
 # sleep 1000
 
 # echo -e "---------deploy end--------"

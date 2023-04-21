@@ -1,4 +1,12 @@
-const { execSync } = require("child_process");
+/**
+ * 请求url参数
+ * port 服务端口号 必填
+ * containerName  容器名称 必填
+ * nameSpace  阿里云容器命名空间 选填
+ * name  阿里云实例名称 选填
+ * version  版本 选填
+ */
+const { exec, execSync  } = require("child_process");
 const http = require("http");
 const url = require("url");
 
@@ -38,14 +46,20 @@ http
         result,
         url: req.url,
         method: req.method,
-        port: query?.port || 8888,
-        containerName:query?.containerName ,
+        port: query.port || 8888,
+        containerName: query.containerName,
       };
-      const path =`${result.repository.nameSpace}/${result.repository.name}:${result.push_data.tag}`
-      execSync(
-        `./update.sh ${path} ${containerName} ${result.push_data.tag} ${response.port}`
-      );
       console.log(new Date().toLocaleString(), response);
+
+      const path = `${query.nameSpace || result.repository.nameSpace}/${
+        query.name || result.repository.name
+      }:${query.version || result.push_data.tag}`;
+
+      const shell=` update.sh ${path}  ${response.port}  ${query.containerName}`
+      console.log(shell,'shell')
+      execSync(shell)
+
+
       res.end(JSON.stringify(response));
     }
   })
