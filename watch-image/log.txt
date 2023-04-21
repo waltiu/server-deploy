@@ -1,0 +1,22 @@
+---------docker restart--------
+---------docker Stop--------
+---------docker Rm--------
+---------docker Pull--------
+---------docker Create and Start--------
+---------deploy Success--------
+2023-04-21 21:06:27
+路径：waltiu/waltiu:latest 容器名称： my-site 端口： 8888
+---------docker restart--------
+---------docker Stop--------
+---------docker Rm--------
+---------docker Pull--------
+---------docker Create and Start--------
+---------deploy Success--------
+2023-04-21 21:06:36
+路径：waltiu/waltiu:latest 容器名称： my-site 端口： 8888
+---------docker restart--------
+---------docker Stop--------
+---------docker Rm--------
+---------docker Pull--------
+---------docker Create and Start--------
+---------deploy Success--------

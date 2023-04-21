@@ -15,22 +15,23 @@ imagepath=registry.cn-beijing.aliyuncs.com/$path
 # echo -e "---------docker Login--------"
 # docker login --username=$username  --password=$password   # 你docker的用户名和密码
 
-echo  路径：$path  容器名称： $containerName   端口： $port
+echo $(date +%F%n%T)  >> log.txt
 
-echo -e "---------docker restart--------"
+echo  路径：$path  容器名称： $containerName   端口： $port  >> log.txt
 
-echo -e "---------docker Stop--------"
+echo -e "---------docker restart--------"  >> log.txt
+
+echo -e "---------docker Stop--------" >> log.txt
 docker stop  $containerName  # 停止容器
-echo -e "---------docker Rm--------"
+echo -e "---------docker Rm--------" >> log.txt
 docker rm  	 $containerName  # 删除容器
-#!/bin/bash
 
-echo -e "---------docker Pull--------"
+echo -e "---------docker Pull--------" >> log.txt
 docker pull $imagepath		 # 更新镜像
 
-echo -e "---------docker Create and Start--------"
+echo -e "---------docker Create and Start--------" >> log.txt
 docker run --rm -d -p $port:80 --name $containerName $imagepath # 重启容器
-echo -e "---------deploy Success--------"
+echo -e "---------deploy Success--------" >> log.txt
 
 # 本地调试可以打开
 # sleep 1000
