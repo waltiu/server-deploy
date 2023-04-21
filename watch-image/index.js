@@ -30,7 +30,7 @@ http
     res.writeHead(200, { "Content-Type": "application/json" });
     let shellUrl = "";
     // 测试时可以去掉，或者在git bash上运行,添加脚本的运行权限
-    // exec("chmod +x $PWD/update.sh")
+    exec("chmod +x $PWD/update.sh")
     const { pathname, query } = url.parse(req.url, true);
     if (req.method === Type_GET) {
       const response = {
