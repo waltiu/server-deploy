@@ -1,11 +1,10 @@
 const http = require("http");
 
-const TYPE_POST="post"
-const Type_GET='get'
+const TYPE_POST="POST"
+const Type_GET='GET'
 
 http
   .createServer((req, res) => {
-    console.log(req,'req')
     if (req.method === Type_GET ) {
       console.log(req.url);
       res.end(req);
