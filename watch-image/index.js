@@ -7,7 +7,7 @@ http
   .createServer((req, res) => {
     if (req.method === Type_GET ) {
       console.log(req.url);
-      res.end(req);
+      res.end(JSON.stringify(req));
       //...
     }
     if (req.method === TYPE_POST) {
