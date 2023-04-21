@@ -40,7 +40,7 @@ http
       };
       console.log(new Date().toLocaleString(), response);
       const path = `${query.nameSpace}/${query.name}:${query.version}`;
-      shellUrl = `update.sh ${path}  ${query.port}  ${query.containerName}`;
+      shellUrl = `sh update.sh ${path}  ${query.port}  ${query.containerName}`;
       console.log(shellUrl, "shell");
       execSync(shellUrl);
       res.end(JSON.stringify(response));
@@ -56,7 +56,7 @@ http
       };
       console.log(new Date().toLocaleString(), response);
       const path = `${result.repository.nameSpace}/${result.repository.name}:${result.push_data.tag}`;
-      shellUrl = ` update.sh ${path}  ${response.port}  ${query.containerName}`;
+      shellUrl = `sh update.sh ${path}  ${response.port}  ${query.containerName}`;
       console.log(shellUrl, "shell");
       execSync(shellUrl);
       res.end(JSON.stringify(response));
