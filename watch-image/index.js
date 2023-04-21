@@ -28,6 +28,7 @@ const resolvePost = (req) => {
 http
   .createServer(async (req, res) => {
     res.writeHead(200, { "Content-Type": "application/json" });
+    // 测试时可以去掉sh前缀，或者在git bash上运行
     let shellUrl = "";
     const { pathname, query } = url.parse(req.url, true);
     if (req.method === Type_GET) {
@@ -42,7 +43,15 @@ http
       const path = `${query.nameSpace}/${query.name}:${query.version}`;
       shellUrl = `sh update.sh ${path}  ${query.port}  ${query.containerName}`;
       console.log(shellUrl, "shell");
-      execSync(shellUrl);
+      if (
+        query.nameSpace &&
+        query.name &&
+        query.version &&
+        query.port &&
+        query.containerName
+      ) {
+        execSync(shellUrl);
+      }
       res.end(JSON.stringify(response));
     }
     if (req.method === TYPE_POST) {
@@ -61,7 +70,6 @@ http
       execSync(shellUrl);
       res.end(JSON.stringify(response));
     }
-
   })
   .listen(3000, () => {
     console.log("server is ready");
