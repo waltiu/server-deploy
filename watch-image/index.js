@@ -29,8 +29,7 @@ http
   .createServer(async (req, res) => {
     res.writeHead(200, { "Content-Type": "application/json" });
     let shellUrl = "";
-    // 测试时可以去掉，或者在git bash上运行,添加脚本的运行权限
-    exec("chmod +x $PWD/update.sh")
+    // 测试时可以去掉sh，或者在git bash上运行
     const { pathname, query } = url.parse(req.url, true);
     if (req.method === Type_GET) {
       const response = {
@@ -42,7 +41,7 @@ http
       };
       console.log(new Date().toLocaleString(), response);
       const path = `${query.nameSpace}/${query.name}:${query.version}`;
-      shellUrl = `update.sh ${path}  ${query.port}  ${query.containerName}`;
+      shellUrl = `sh update.sh ${path}  ${query.port}  ${query.containerName}`;
       console.log(shellUrl, "shell");
       if (
         query.nameSpace &&
@@ -66,7 +65,7 @@ http
       };
       console.log(new Date().toLocaleString(), response);
       const path = `${result.repository.nameSpace}/${result.repository.name}:${result.push_data.tag}`;
-      shellUrl = `update.sh ${path}  ${response.port}  ${query.containerName}`;
+      shellUrl = `sh update.sh ${path}  ${response.port}  ${query.containerName}`;
       console.log(shellUrl, "shell");
       execSync(shellUrl);
       res.end(JSON.stringify(response));
