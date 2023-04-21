@@ -5,6 +5,7 @@ const Type_GET='get'
 
 http
   .createServer((req, res) => {
+    console.log(req,'req')
     if (req.method === Type_GET ) {
       console.log(req.url);
       res.end(req);
